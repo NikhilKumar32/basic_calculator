@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Scientific Calculator</title>
+  </head>
+  <body class="bg-gray-100 text-gray-900 transition-colors">
+    <div class="grid grid-cols-1 gap-6 justify-items-center items-center h-screen p-4">
+      <div>
+        <h1 class="text-3xl text-center font-bold">Advanced Scientific Calculator</h1>
+        <div class="flex justify-center mt-2">
+          <select
+            id="themeSelector"
+            class="border border-gray-300 p-2 rounded-md"
+            onchange="changeTheme()"
+          >
+            <option value="green" selected>Green Theme</option>
+            <option value="blue">Blue Theme</option>
+            <option value="red">Red Theme</option>
+            <option value="yellow">Yellow Theme</option>
+          </select>
+          <button
+            id="toggleDarkMode"
+            class="ml-2 bg-green-500 text-white p-2 rounded-md"
+          >
+            Toggle Dark Mode
+          </button>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 gap-4 bg-gray-200 p-6 rounded-lg dark:bg-gray-800">
+        <div class="flex flex-col">
+          <label class="text-1xl mb-2 font-bold text-gray-700 dark:text-gray-300">
+            Enter Numbers (comma-separated)
+          </label>
+          <input
+            type="text"
+            id="numbers"
+            class="bg-white text-black border-2 border-gray-300 p-2 rounded-lg focus:outline-none focus:border-green-500"
+            placeholder="e.g. 10,20,30"
+          />
+        </div>
+        <div class="grid grid-cols-4 gap-2">
+          <button class="bg-green-500 text-white p-2 rounded-md" onclick="add()">Add (+)</button>
+          <button class="bg-green-500 text-white p-2 rounded-md" onclick="sub()">Sub (-)</button>
+          <button class="bg-green-500 text-white p-2 rounded-md" onclick="mul()">Mul (*)</button>
+          <button class="bg-green-500 text-white p-2 rounded-md" onclick="div()">Div (/)</button>
+          <button class="bg-green-500 text-white p-2 rounded-md" onclick="sqrt()">√ (Sqrt)</button>
+          <button class="bg-green-500 text-white p-2 rounded-md" onclick="pow()">Power (^)</button>
+          <button class="bg-green-500 text-white p-2 rounded-md" onclick="log()">Log</button>
+          <button class="bg-green-500 text-white p-2 rounded-md" onclick="fact()">Factorial (!)</button>
+          <button class="bg-green-500 text-white p-2 rounded-md" onclick="sin()">Sin</button>
+          <button class="bg-green-500 text-white p-2 rounded-md" onclick="cos()">Cos</button>
+          <button class="bg-green-500 text-white p-2 rounded-md" onclick="tan()">Tan</button>
+          <button class="bg-green-500 text-white p-2 rounded-md" onclick="clr()">Clear</button>
+        </div>
+        <div class="flex flex-col items-center mt-4">
+          <h1 class="text-2xl text-center font-bold text-gray-700 dark:text-gray-300">
+            Result: <span id="result"></span>
+          </h1>
+          <button
+            class="bg-green-500 text-white p-2 mt-2 rounded-md"
+            onclick="copyResult()"
+          >
+            Copy Result
+          </button>
+        </div>
+        <div class="mt-4">
+          <h2 class="text-lg font-bold text-gray-700 dark:text-gray-300">
+            Calculation History:
+          </h2>
+          <ul id="history" class="list-disc pl-5 text-gray-700 dark:text-gray-300"></ul>
+        </div>
+      </div>
+      <footer class="text-center text-gray-500 dark:text-gray-400">
+        <p>
+          Made with ❤️ by
+          <a href="https://github.com/NikhilKumar32" class="text-green-500">Nikhil Kumar</a>
+        </p>
+      </footer>
+    </div>
+    <script>
+      // Helper Functions
+      function parseInput() {
+        const input = document.getElementById("numbers").value;
+        const numbers = input.split(",").map((num) => parseFloat(num.trim()));
+        if (numbers.some(isNaN)) {
+          alert("Please enter only valid numbers, separated by commas.");
+          return null;
+        }
+        return numbers;
+      }
+
+      function updateHistory(operation, result) {
+        const history = document.getElementById("history");
+        const li = document.createElement("li");
+        li.innerText = `${operation} = ${result}`;
+        history.appendChild(li);
+      }
+
+      function copyResult() {
+        const result = document.getElementById("result").innerText;
+        navigator.clipboard.writeText(result).then(() => {
+          alert("Result copied to clipboard!");
+        });
+      }
+
+      // Calculator Operations
+      function add() {
+        const numbers = parseInput();
+        if (numbers) {
+          const result = numbers.reduce((a, b) => a + b, 0);
+          document.getElementById("result").innerText = result;
+          updateHistory(`${numbers.join(" + ")}`, result);
+        }
+      }
+
+      function sub() {
+        const numbers = parseInput();
+        if (numbers) {
+          const result = numbers.reduce((a, b) => a - b);
+          document.getElementById("result").innerText = result;
+          updateHistory(`${numbers.join(" - ")}`, result);
+        }
+      }
+
+      function mul() {
+        const numbers = parseInput();
+        if (numbers) {
+          const result = numbers.reduce((a, b) => a * b, 1);
+          document.getElementById("result").innerText = result;
+          updateHistory(`${numbers.join(" * ")}`, result);
+        }
+      }
+
+      function div() {
+        const numbers = parseInput();
+        if (numbers) {
+          const result = numbers.reduce((a, b) => a / b);
+          document.getElementById("result").innerText = result;
+          updateHistory(`${numbers.join(" / ")}`, result);
+        }
+      }
+
+      function sqrt() {
+        const numbers = parseInput();
+        if (numbers && numbers.length === 1) {
+          const result = Math.sqrt(numbers[0]);
+          document.getElementById("result").innerText = result;
+          updateHistory(`√${numbers[0]}`, result);
+        } else {
+          alert("Square root requires exactly one number.");
+        }
+      }
+
+      function pow() {
+        const numbers = parseInput();
+        if (numbers && numbers.length === 2) {
+          const result = Math.pow(numbers[0], numbers[1]);
+          document.getElementById("result").innerText = result;
+          updateHistory(`${numbers[0]} ^ ${numbers[1]}`, result);
+        } else {
+          alert("Power operation requires exactly two numbers.");
+        }
+      }
+
+      function log() {
+        const numbers = parseInput();
+        if (numbers && numbers.length === 1) {
+          const result = Math.log10(numbers[0]);
+          document.getElementById("result").innerText = result;
+          updateHistory(`log(${numbers[0]})`, result);
+        } else {
+          alert("Logarithm requires exactly one number.");
+        }
+      }
+
+      function fact() {
+        const numbers = parseInput();
+        if (numbers && numbers.length === 1) {
+          const result = factorial(numbers[0]);
+          document.getElementById("result").innerText = result;
+          updateHistory(`${numbers[0]}!`, result);
+        } else {
+          alert("Factorial requires exactly one number.");
+        }
+      }
+
+      function factorial(n) {
+        if (n < 0) return "undefined";
+        return n === 0 ? 1 : n * factorial(n - 1);
+      }
+
+      function sin() {
+        const numbers = parseInput();
+        if (numbers && numbers.length === 1) {
+          const result = Math.sin((numbers[0] * Math.PI) / 180);
+          document.getElementById("result").innerText = result;
+          updateHistory(`sin(${numbers[0]})`, result);
+        }
+      }
+
+      function cos() {
+        const numbers = parseInput();
+        if (numbers && numbers.length === 1) {
+          const result = Math.cos((numbers[0] * Math.PI) / 180);
+          document.getElementById("result").innerText = result;
+          updateHistory(`cos(${numbers[0]})`, result);
+        }
+      }
+
+      function tan() {
+        const numbers = parseInput();
+        if (numbers && numbers.length === 1) {
+          const result = Math.tan((numbers[0] * Math.PI) / 180);
+          document.getElementById("result").innerText = result;
+          updateHistory(`tan(${numbers[0]})`, result);
+        }
+      }
+
+      function clr() {
+        document.getElementById("numbers").value = "";
+        document.getElementById("result").innerText = "";
+        document.getElementById("history").innerHTML = "";
+      }
+
+      // Theme and Dark Mode
+      function changeTheme() {
+        const theme = document.getElementById("themeSelector").value;
+        document.querySelectorAll("button").forEach((btn) => {
+          btn.className = `bg-${theme}-500 text-white p-2 rounded-md`;
+        });
+      }
+
+      document.getElementById("toggleDarkMode").addEventListener("click", () => {
+        document.body.classList.toggle("dark");
+        document.body.classList.toggle("bg-gray-100");
+        document.body.classList.toggle("bg-gray-900");
+      });
+    </script>
+  </body>
+</html>

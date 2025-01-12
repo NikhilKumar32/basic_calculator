@@ -1,4 +1,4 @@
-# Basic Calculator
+# Scientific Calculator
 
 A feature-rich **Basic and Scientific Calculator** built with **HTML**, **JavaScript**, and **Tailwind CSS**. This calculator supports both basic arithmetic operations and advanced scientific functions, designed for an interactive and user-friendly experience.
 

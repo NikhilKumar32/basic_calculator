@@ -25,14 +25,6 @@ A feature-rich **Basic and Scientific Calculator** built with **HTML**, **JavaSc
 
 ---
 
-## Screenshots
-
-![Basic Calculator Screenshot](#)
-
-> Add a screenshot of your application here to give users a quick preview.
-
----
-
 ## Installation and Usage
 
 1. **Clone the Repository**:

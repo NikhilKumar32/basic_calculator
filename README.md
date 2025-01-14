@@ -2,7 +2,7 @@
 
 A feature-rich **Basic and Scientific Calculator** built with **HTML**, **JavaScript**, and **Tailwind CSS**. This calculator supports both basic arithmetic operations and advanced scientific functions, designed for an interactive and user-friendly experience.
 
-### Have a look: basiccoolcalculator.netlify.app
+### Have a look: https://basiccoolcalculator.netlify.app
 
 ---
 
